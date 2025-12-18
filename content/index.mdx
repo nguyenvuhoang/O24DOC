@@ -1,103 +1,225 @@
 ---
-title: Home
-description: A streamlined starter template for Nextra documentation sites
+title: O24 Platform
+description: Official Documentation for O24 Platform – OpenAPI · Core Banking · Wallet · Transaction Systems
 ---
 
-# Nextra Docs Starter
+import { Cards } from 'nextra/components'
 
-A clean, beginner-friendly starter template for building documentation sites with Nextra. If you've found the official Nextra docs a bit overwhelming, this template is designed to help you get started faster with clear examples and sensible defaults.
+# O24 Platform Documentation
 
-[Get Started →](/docs)
+<div className="text-lg text-gray-600 dark:text-gray-400 mt-4 mb-8">
+  📘 **Enterprise-ready · Clean Architecture · DDD · Microservices · Event-driven**
+</div>
 
-You can deploy this template on Vercel by clicking the button below
+**O24 Platform** là một hệ sinh thái **OpenAPI & Transaction Platform** được thiết kế cho các hệ thống tài chính hiện đại, bao gồm Core Banking, Fintech, Wallet và Payment.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fphucbm%2Fnextra-docs-starter)
+[Bắt đầu ngay →](/docs)
 
-## Features
+---
 
-### 🔍 Improved search UI
+## 🌐 Giới thiệu
 
-Search functionality works out of the box based on Pagefind.
-Just clone this template and you're ready to go - no additional setup required.
+O24 Platform được xây dựng để đáp ứng các nhu cầu:
 
-[![](/images/search-dialog.gif)](https://nextra.phucbm.com)
+<Cards>
+  <Cards title="🏦 Core Banking / Fintech" href="/docs" />
+  <Cards title="💰 Wallet / Payment" href="/docs" />
+  <Cards title="⚡ Giao dịch thời gian thực" href="/docs" />
+  <Cards title="🔗 Tích hợp đa hệ thống" href="/docs" />
+</Cards>
 
-<Callout>To use search on local, you need to run `pnpm build` first.</Callout>
+<Callout type="info">
+  **O24 Document** là cổng tài liệu chính thức, giúp Developer, BA/SA, DevOps và đội Integration nắm bắt toàn bộ kiến trúc & nghiệp vụ.
+</Callout>
 
+---
 
-### 🧭 Clear Navigation Structure
+## 🧱 Kiến trúc tổng thể
 
-Pre-configured `_meta.global.tsx` with examples of:
-- **Navbar pages** - Standalone pages without sidebar
-- **Documentation pages** - Pages with sidebar navigation
-- **Dropdown menus** - External links and resources
-- **Separators** - Organized sections in sidebar
+```
+┌──────────────────────────────────────────────────────────────┐
+│                     Client Applications                       │
+│                    (Web / Mobile / App)                       │
+└────────────────────────────┬─────────────────────────────────┘
+                             │
+                             ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    API Gateway / BFF                          │
+│                  (Auth, RateLimit, Routing)                   │
+└────────────────────────────┬─────────────────────────────────┘
+                             │
+                             ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    O24 Microservices                          │
+│                                                               │
+│  • Wallet Service          • Core Banking Gateway (CBG)       │
+│  • Deposit / Loan Service  • CMS / Config / Media             │
+│  • Transaction Service     • Notification (SMS/Push/Email)    │
+│  • Reporting / CDC / Audit                                    │
+└────────────────────────────┬─────────────────────────────────┘
+                             │
+                             ▼
+┌──────────────────────────────────────────────────────────────┐
+│                  Core & External Systems                      │
+│                                                               │
+│  • Oracle Core Banking (O9)    • RabbitMQ / Kafka             │
+│  • SQL Server / PostgreSQL     • Firebase / SMS Provider      │
+└──────────────────────────────────────────────────────────────┘
+```
 
-See the [Navigation Guide](/docs/navigation) for complete documentation.
+---
 
-### 🎨 Theme Customization
+## 🧠 Triết lý thiết kế
 
-Easy-to-configure theme options including:
-- Full-width layouts
-- Table of contents control
-- Timestamps
-- Typography presets
+O24 được xây dựng dựa trên các nguyên tắc kiến trúc hiện đại:
 
-### 📝 Ready-to-Use Templates
+| Nguyên tắc | Mô tả |
+|------------|-------|
+| **Clean Architecture** | Tách biệt rõ ràng các layer, business logic độc lập |
+| **DDD (Domain-Driven Design)** | Thiết kế theo domain nghiệp vụ |
+| **Transaction-driven** | Mọi thao tác đều được quản lý qua transaction |
+| **Event-driven** | Tích hợp bất đồng bộ qua events |
+| **Enterprise Security** | Bảo mật & audit toàn diện |
 
-Includes example pages for:
-- Documentation structure
-- About page
-- Contact page
-- Custom layouts
+<Callout type="warning">
+  👉 Business logic luôn độc lập với framework, database, UI.
+</Callout>
 
+---
 
-## What Makes This Different?
-
-The official Nextra documentation can be confusing for newcomers, especially when it comes to:
-- Understanding the difference between page types
-- Configuring navigation properly
-- Setting up the `_meta` files correctly
-
-This starter template provides:
-- **Clear examples** of every configuration option
-- **Complete code snippets** you can copy and modify
-- **Organized structure** that's easy to understand
-- **Best practices** built-in from the start
-
-## Project Structure
+## 📦 Cấu trúc dự án Backend (.NET)
 
 <FileTree>
-    <FileTree.Folder name="app" defaultOpen>
-        <FileTree.Folder name="[[...mdxPath]]">
-            <FileTree.File name="page.jsx" />
+    <FileTree.Folder name="src" defaultOpen>
+        <FileTree.Folder name="O24OpenAPI.Domain">
+            <FileTree.File name="Domain Models, Aggregates, ValueObjects" />
         </FileTree.Folder>
-        <FileTree.File name="_meta.global.tsx" />
-        <FileTree.File name="globals.css" />
-        <FileTree.File name="layout.tsx" />
-        <FileTree.File name="not-found.tsx" />
-    </FileTree.Folder>
-    <FileTree.Folder name="content" defaultOpen>
-        <FileTree.File name="article.mdx" />
-        <FileTree.File name="contact.mdx" />
-        <FileTree.File name="index.mdx" />
-        <FileTree.Folder name="docs" defaultOpen>
-            <FileTree.File name="index.mdx" />
-            <FileTree.File name="navigation.mdx" />
-            <FileTree.File name="tips.mdx" />
+        <FileTree.Folder name="O24OpenAPI.Application">
+            <FileTree.File name="UseCases, Services, DTOs" />
+        </FileTree.Folder>
+        <FileTree.Folder name="O24OpenAPI.Infrastructure">
+            <FileTree.File name="DB, External APIs, Messaging" />
+        </FileTree.Folder>
+        <FileTree.Folder name="O24OpenAPI.WebAPI">
+            <FileTree.File name="Controllers, Middleware" />
+        </FileTree.Folder>
+        <FileTree.Folder name="O24OpenAPI.Shared">
+            <FileTree.File name="Common, Extensions, Constants" />
+        </FileTree.Folder>
+        <FileTree.Folder name="O24OpenAPI.Migrations">
+            <FileTree.File name="FluentMigrator Builders" />
         </FileTree.Folder>
     </FileTree.Folder>
 </FileTree>
 
-## Need Help?
+### Clean Architecture Mapping
 
-- **Issues**: [GitHub Issues](https://github.com/phucbm/nextra-docs-starter/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/phucbm/nextra-docs-starter/discussions)
-- **Nextra Docs**: [Official Documentation](https://nextra.site)
+| Layer | Mục đích |
+|-------|----------|
+| **Domain** | Business rules thuần túy |
+| **Application** | Use case, orchestration |
+| **Infrastructure** | DB, Core Banking, External APIs |
+| **WebAPI** | REST / gRPC endpoints |
 
-## Show Your Support
+---
 
-If this template helped you, consider:
+## 🔐 Security & Authentication
+
+O24 áp dụng các cơ chế bảo mật enterprise-grade:
+
+- ✅ **JWT / OAuth2 / API Key** – Xác thực đa phương thức
+- ✅ **Device Binding** – Ràng buộc thiết bị
+- ✅ **OTP / Smart OTP** – Xác thực 2 lớp
+- ✅ **Role-based Access Control** – Phân quyền chi tiết
+- ✅ **Full Audit Trail** – Ghi log toàn bộ hoạt động
+
+---
+
+## 🗄 Database Strategy
+
+| Database | Mục đích |
+|----------|----------|
+| **Oracle** | Core Banking |
+| **SQL Server** | Transaction, Wallet, CMS |
+| **PostgreSQL** | Reporting, Analytics |
+| **Redis** | Cache, Session |
+
+---
+
+## 🛠 Tech Stack
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+
+| Frontend Docs | Backend |
+|---------------|---------|
+| Nextra 4, Next.js | .NET 8/9/10 |
+
+| Database | Messaging |
+|----------|-----------|
+| Oracle, SQL Server, PostgreSQL | RabbitMQ |
+
+| Infrastructure | CI/CD |
+|----------------|-------|
+| Docker, Nginx, Linux | GitLab / GitHub Actions |
+
+</div>
+
+---
+
+## 📘 Cấu trúc tài liệu
+
+<FileTree>
+    <FileTree.Folder name="docs" defaultOpen>
+        <FileTree.File name="introduction" />
+        <FileTree.File name="architecture" />
+        <FileTree.Folder name="domains" defaultOpen>
+            <FileTree.File name="wallet" />
+            <FileTree.File name="transaction" />
+            <FileTree.File name="deposit" />
+        </FileTree.Folder>
+        <FileTree.File name="api-reference" />
+        <FileTree.File name="database" />
+        <FileTree.File name="dev-guide" />
+        <FileTree.File name="deployment" />
+        <FileTree.File name="faq" />
+    </FileTree.Folder>
+</FileTree>
+
+---
+
+## 🚀 Local Development
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Truy cập: [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 📌 Định hướng mở rộng
+
+- 🤖 **AI / RAG / Knowledge Base** – Tích hợp trí tuệ nhân tạo
+- ⚙️ **Rule Engine** – Hệ thống luật nghiệp vụ
+- 🏢 **Multi-tenant** – Hỗ trợ đa khách hàng
+- 🌐 **OpenAPI Marketplace** – Nền tảng chia sẻ API
+- 🧪 **Sandbox & Developer Portal** – Môi trường thử nghiệm
+
+---
+
+## 📄 License
+
+<Callout>
+  **O24 Platform** – Internal / Enterprise License  
+  © O24 / VKNIGHT / JITS
+</Callout>
+
+---
+
+<div className="text-center mt-12 mb-8">
+  <div className="text-2xl font-bold text-primary">O24 – Always Ready. 🚀</div>
+</div>
 - ⭐ [Starring the repository](https://github.com/phucbm/nextra-docs-starter)
 - 🐛 [Reporting issues](https://github.com/phucbm/nextra-docs-starter/issues)
 - 💡 [Suggesting features](https://github.com/phucbm/nextra-docs-starter/discussions)

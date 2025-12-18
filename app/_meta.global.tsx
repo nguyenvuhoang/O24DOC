@@ -2,7 +2,6 @@ import {MetaRecord} from "nextra";
 
 const DOCS_ITEMS: MetaRecord = {
     index: '',
-    navigation: '',
     tips: '',
 }
 
@@ -21,13 +20,6 @@ export default {
         title: 'Documentation',
         items: DOCS_ITEMS
     },
-    article: {
-        type: 'page',
-        theme: {
-            toc: false,
-            typesetting: 'article',
-        }
-    },
     contact: {
         type: 'page',
         theme: {
@@ -42,11 +34,11 @@ export default {
         items: {
             docs: {
                 title: 'Docs Starter repo',
-                href: 'https://github.com/phucbm/nextra-docs-starter',
+                href: 'https://github.com/nguyenvuhoang/O24DOC',
             },
             blog: {
                 title: 'Blog Starter repo',
-                href: 'https://github.com/phucbm/nextra-blog-starter'
+                href: 'https://github.com/nguyenvuhoang/nextra-blog-starter'
             }
         }
     },

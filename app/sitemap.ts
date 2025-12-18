@@ -84,7 +84,7 @@ const parsePageMapItems = (items: PageMapItem[]): SitemapEntry[] => {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yoursite.com'
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://vknight.io.vn'
     const pageMap = await getPageMap()
 
     const entries = parsePageMapItems(pageMap)

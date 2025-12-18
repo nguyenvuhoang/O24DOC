@@ -1,49 +1,257 @@
-> 👋 Nov 2025: I’m actively working on this template. If you run into any problems, just create an issue and I’ll respond within a day.
+<h1 align="center">O24 Document</h1>
 
-# Nextra Docs Starter 
+<p align="center">
+  📘 Official Documentation for O24 Platform – OpenAPI · Core Banking · Wallet · Transaction Systems
+</p>
 
-![Vercel Deploy](https://deploy-badge.vercel.app/vercel/nextra-docs-starter)
+<div align="center">
+  <b>Enterprise-ready · Clean Architecture · DDD · Microservices · Event-driven</b>
+</div>
 
-This starter template includes the following features:
+---
 
-- [x] **Nextra 4**
-- [x] **Improved Search UI with Pagefind**
+## 🌐 Giới thiệu
 
-[**Live Demo →**](https://nextra.phucbm.com)
+**O24 Platform** là một hệ sinh thái **OpenAPI & Transaction Platform** được thiết kế cho:
 
-![search-dialog](https://github.com/user-attachments/assets/c2993957-542d-4796-8529-141e16fccb43)
+- Core Banking / Fintech / Wallet / Payment
+- Hệ thống giao dịch thời gian thực
+- Kiến trúc microservices, dễ mở rộng
+- Tích hợp đa hệ thống (Oracle Core, SQL Server, PostgreSQL, External APIs)
 
-## Quick Start
+📌 **O24 Document** là cổng tài liệu chính thức, giúp:
 
-You can deploy this template on Vercel by clicking the button below
+- Developer hiểu rõ kiến trúc & cách lập trình
+- BA / SA nắm được nghiệp vụ & domain
+- DevOps triển khai & vận hành hệ thống
+- Đội tích hợp (Integration) dùng API đúng chuẩn
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fphucbm%2Fnextra-docs-starter)
+---
 
-## Local Development
+## 🧱 Tổng quan kiến trúc O24
 
-### Clone this repository
+### 1️⃣ Kiến trúc tổng thể
 
-Using the GitHub CLI:
-```bash
-gh repo clone phucbm/nextra-docs-starter
+┌──────────────────────┐
+│ Client Applications │
+│ (Web / Mobile / App)│
+└──────────┬───────────┘
+│
+▼
+┌──────────────────────┐
+│ API Gateway / BFF │
+│ (Auth, RateLimit) │
+└──────────┬───────────┘
+│
+▼
+┌──────────────────────────────────────────────┐
+│ O24 Microservices │
+│ │
+│ • Wallet Service │
+│ • Deposit / Loan Service │
+│ • Transaction Service (DTS) │
+│ • Core Banking Gateway (CBG) │
+│ • CMS / Config / Media │
+│ • Notification (SMS / Push / Email) │
+│ • Reporting / CDC / Audit │
+└──────────┬───────────────────────────────────┘
+│
+▼
+┌──────────────────────────────────────────────┐
+│ Core & External Systems │
+│ • Oracle Core Banking (O9) │
+│ • SQL Server / PostgreSQL │
+│ • RabbitMQ / Kafka │
+│ • Firebase / SMS Provider │
+└──────────────────────────────────────────────┘
+
+---
+
+## 🧠 Triết lý thiết kế
+
+O24 được xây dựng dựa trên các nguyên tắc:
+
+- **Clean Architecture**
+- **DDD (Domain-Driven Design)**
+- **Transaction-driven System**
+- **Event-driven Integration**
+- **Enterprise Security & Audit**
+
+> 👉 Business logic luôn độc lập với framework, database, UI.
+
+---
+
+## 📦 Cấu trúc dự án (Backend – .NET)
+
+src/
+├── O24OpenAPI.Domain # Domain Models, Aggregates, ValueObjects
+├── O24OpenAPI.Application # UseCases, Services, DTOs
+├── O24OpenAPI.Infrastructure # DB, External APIs, Messaging
+├── O24OpenAPI.WebAPI # Controllers, Middleware
+├── O24OpenAPI.Shared # Common, Extensions, Constants
+└── O24OpenAPI.Migrations # FluentMigrator Builders
+
+### Mapping Clean Architecture
+
+| Layer          | Mục đích                |
+| -------------- | -------------------------- |
+| Domain         | Business rules thuần      |
+| Application    | Use case, orchestration    |
+| Infrastructure | DB, Core Banking, External |
+| WebAPI         | REST / gRPC endpoints      |
+
+---
+
+## 🧩 Domain-Driven Design (DDD)
+
+### Ví dụ Domain: Wallet
+
+Wallet
+├── WalletAggregate
+│ ├── WalletId
+│ ├── Balance
+│ ├── Currency
+│ ├── Status
+│ └── WalletTransactions
+
+### Nguyên tắc
+
+- Aggregate kiểm soát consistency
+- Không expose Entity trực tiếp ra ngoài
+- Logic nằm trong Domain, không nằm ở Controller
+
+---
+
+## 🔁 Transaction-driven Flow
+
+Ví dụ: **Wallet → Core Banking Transaction**
+
+Client
+→ API
+→ Validate
+→ Create Transaction
+→ Push Queue
+→ Core Gateway
+→ Oracle Core
+→ Callback
+→ Update Status
+
+✔ Retry
+✔ Fallback
+✔ Idempotency
+✔ Audit log
+
+---
+
+## 📡 Event & Messaging
+
+O24 sử dụng:
+
+- **RabbitMQ** cho async processing
+- **CDC (Change Data Capture)** cho reporting
+- **Outbox Pattern** cho consistency
+
+Ví dụ Event:
+
+```json
+{
+  "event": "WALLET_TRANSFER_COMPLETED",
+  "transactionId": "UUID",
+  "amount": 100000,
+  "currency": "VND"
+}
 ```
 
-### Install
-```bash
-pnpm i
-```
+## 🔐 Security & Authentication
 
-### Run the development server
-```bash
+* JWT / OAuth2 / API Key
+* Device binding
+
+* OTP / Smart OTP
+* Role-based Access Control
+
+* Full Audit Trail
+
+## 🗄 Database Strategy
+
+| Database   | Mục đích              |
+| ---------- | ------------------------ |
+| Oracle     | Core Banking             |
+| SQL Server | Transaction, Wallet, CMS |
+| PostgreSQL | Reporting, Analytics     |
+| Redis      | Cache, Session           |
+
+Migration dùng FluentMigrator với Builder pattern:
+
+Create.Table("D_WALLET")
+  .WithColumn("WalletId").AsGuid().PrimaryKey()
+  .WithColumn("Balance").AsDecimal()
+  .WithColumn("Currency").AsString(3);
+
+## 🧪 Logging & Observability
+
+Serilog
+
+* Grafana + Loki
+* Distributed Trace
+
+* Transaction Trace ID
+
+Log format chuẩn:
+
+*[Service] [TraceId] [Level] Message*
+
+## 📘 O24 Document Structure
+
+docs/
+├── introduction
+├── architecture
+├── domains
+│   ├── wallet
+│   ├── transaction
+│   ├── deposit
+├── api-reference
+├── database
+├── dev-guide
+├── deployment
+└── faq
+
+## 🚀 Local Development (Docs)
+
+pnpm install
 pnpm dev
-```
+Truy cập: [http://localhost:3000](http://localhost:3000)
 
-## Star History
+## 🛠 Tech Stack
 
-<a href="https://www.star-history.com/#phucbm/nextra-docs-starter&type=timeline&logscale&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=phucbm/nextra-docs-starter&type=timeline&theme=dark&logscale&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=phucbm/nextra-docs-starter&type=timeline&logscale&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=phucbm/nextra-docs-starter&type=timeline&logscale&legend=top-left" />
- </picture>
-</a>
+* Frontend Docs: Nextra 4, Next.js
+* Backend: .NET 8/9/10
+
+* Database: Oracle, SQL Server, PostgreSQL
+* Messaging: RabbitMQ
+
+* Infra: Docker, Nginx, Linux
+* CI/CD: GitLab / GitHub Action
+
+## 📌 Định hướng mở rộng
+
+* AI / RAG / Knowledge Base
+* Rule Engine
+
+* Multi-tenant
+* OpenAPI Marketplace
+
+* Sandbox & Developer Portal
+
+## 📄 License
+
+O24 Platform – Internal / Enterprise License
+© O24 / VKNIGHT / JITS
+
+## 🤝 Đóng góp
+
+Follow coding standards
+Respect domain boundaries
+Documentation-first mindset
+
+O24 – Always Ready.

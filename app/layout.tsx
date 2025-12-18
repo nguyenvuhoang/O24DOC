@@ -14,12 +14,12 @@ export const metadata: Metadata = {
 // const banner = <Banner storageKey="some-key">This template was created with 🩸 and 💦 by <Link href="https://github.com/phucbm">PHUCBM</Link> 🐧</Banner>
 const navbar = (
     <Navbar
-        projectLink="https://github.com/phucbm/nextra-docs-starter"
+        projectLink="https://github.com/nguyenvuhoang/O24DOC"
         logo={<img src="/images/general/logo.svg" alt="Logo" width={100} height={20}/>}
         // ... Your additional navbar options
     />
 )
-const footer = <Footer>MIT {new Date().getFullYear()} © Nextra.</Footer>
+const footer = <Footer>MIT {new Date().getFullYear()} © O24.</Footer>
 
 export default async function RootLayout({children}) {
     const pageMap = await getPageMap();
@@ -46,7 +46,7 @@ export default async function RootLayout({children}) {
         <Head
             // ... Your additional head options
         >
-            <link rel="shortcut icon" href="/images/general/icon.svg"/>
+            <link rel="shortcut icon" href="/images/general/icon.png"/>
             {/* Your additional tags should be passed as `children` of `<Head>` element */}
         </Head>
         <body>
