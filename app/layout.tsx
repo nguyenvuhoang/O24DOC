@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const navbar = (
     <Navbar
         projectLink="https://github.com/nguyenvuhoang/O24DOC"
-        logo={<img src="/images/general/logo.svg" alt="Logo" width={100} height={20}/>}
+        logo={<img src="/images/general/logo.png" alt="Logo" width={70} height={20}/>}
         // ... Your additional navbar options
     />
 )
