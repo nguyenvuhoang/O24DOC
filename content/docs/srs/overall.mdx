@@ -1,0 +1,89 @@
+
+---
+title: " Mô Tả Tổng Quan "
+---
+
+## 2. Mô Tả Tổng Quan (Overall Description)
+
+### 2.1 Góc Nhìn Sản Phẩm (Product Perspective)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        W4S ECOSYSTEM                            │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   ┌──────────┐    ┌──────────┐    ┌──────────┐                  │
+│   │  Mobile  │    │   Web    │    │  Admin   │                  │
+│   │   App    │    │  Portal  │    │  Portal  │                  │
+│   └────┬─────┘    └────┬─────┘    └────┬─────┘                  │
+│        │               │               │                        │
+│        └───────────────┼───────────────┘                        │
+│                        │                                        │
+│                        ▼                                        │
+│              ┌─────────────────┐                                │
+│              │   API Gateway   │                                │
+│              │      (O24)      │                                │
+│              └────────┬────────┘                                │
+│                       │                                         │
+│        ┌──────────────┼──────────────┐                          │
+│        ▼              ▼              ▼                          │
+│   ┌─────────┐   ┌─────────┐   ┌─────────┐                       │
+│   │  Auth   │   │  Core   │   │ Report  │                       │
+│   │ Service │   │ Service │   │ Service │                       │
+│   └────┬────┘   └────┬────┘   └────┬────┘                       │
+│        │             │             │                            │
+│        └─────────────┼─────────────┘                            │
+│                      ▼                                          │
+│        ┌─────────────────────────┐                              │
+│        │      SQLServer DB       │                              │
+│        │     + Redis Cache       │                              │
+│        └─────────────────────────┘                              │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Tính năng:**
+
+| Tính năng |W4S |
+|-----------|-------------|
+| Quản lý ví |  ✅ |
+| Đa tiền tệ | ✅ |
+| Ngân sách |  ✅ |
+| Công nợ |  ✅  |
+| Mục tiêu tiết kiệm | ✅ |
+| Báo cáo |  ✅  |
+| API Public |  ✅ |
+| Self-hosted |  ✅ |
+| Audit Trail | ✅ |
+
+### 2.2 Phân Loại Người Dùng
+| Loại Người Dùng | Mô Tả |
+|-----------------|-------|
+| **Người Dùng Cuối (End Users)** | Cá nhân quản lý tài chính cá nhân, theo dõi thu chi, lập ngân sách. |
+
+### 2.3 Môi Trường Vận Hành
+
+| Thành phần | Yêu cầu |
+|------------|---------|
+| **Mobile App** | iOS 13+ / Android 8+ |
+| **Web Browser** | Chrome 80+, Firefox 75+, Safari 13+, Edge 80+ |
+| **Backend** | Node.js 18+ / Go 1.20+ |
+| **Database** | SQLServer 2019+ |
+| **Cache** | Redis 7+ |
+| **Container** | Docker 20+, Kubernetes 1.25+ |
+| **Cloud** | AWS / GCP / Azure compatible |
+
+### 2.4 Ràng Buộc Thiết Kế & Triển Khai
+
+<Callout type="warning">
+**Các ràng buộc quan trọng:**
+</Callout>
+
+1. **Bảo mật:** Tuân thủ OWASP Top 10, mã hóa dữ liệu nhạy cảm
+2. **Hiệu năng:** Response time < 200ms cho 95% requests
+3. **Khả dụng:** Uptime 99.9%
+4. **Đa ngôn ngữ:** Hỗ trợ tiếng Việt và tiếng Anh
+5. **Offline-first:** Mobile app phải hoạt động offline
+6. **GDPR Compliance:** Quyền xóa dữ liệu, export data
+
+---

@@ -1,0 +1,127 @@
+---
+title: "Yêu Cầu API"
+description: "API Requirements - Danh sách và đặc tả các API của hệ thống W4S"
+---
+
+## 7. Yêu Cầu API (API Requirements)
+
+### 7.1 Tổng Quan API
+
+| Aspect | Specification |
+|--------|---------------|
+| **Protocol** | HTTPS (TLS 1.3) |
+| **Format** | RESTful JSON |
+| **Versioning** | URL path (/api/v1/) |
+| **Authentication** | Bearer JWT Token |
+| **Rate Limit** | 100 requests/minute per user |
+
+### 7.2 Danh Sách API Chính
+
+#### Authentication APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/auth/register` | POST | Đăng ký tài khoản mới |
+| `/auth/login` | POST | Đăng nhập |
+| `/auth/logout` | POST | Đăng xuất |
+| `/auth/refresh` | POST | Refresh access token |
+| `/auth/verify-otp` | POST | Xác thực OTP |
+| `/auth/forgot-password` | POST | Yêu cầu reset password |
+| `/auth/reset-password` | POST | Đặt password mới |
+| `/auth/2fa/enable` | POST | Bật 2FA |
+| `/auth/2fa/verify` | POST | Xác thực 2FA |
+
+#### User APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/users/me` | GET | Lấy thông tin user hiện tại |
+| `/users/me` | PUT | Cập nhật thông tin user |
+| `/users/me/password` | PUT | Đổi mật khẩu |
+| `/users/me/sessions` | GET | Danh sách phiên đăng nhập |
+| `/users/me/sessions/:id` | DELETE | Đăng xuất 1 phiên |
+
+#### Wallet APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/wallets` | GET | Danh sách ví |
+| `/wallets` | POST | Tạo ví mới |
+| `/wallets/:id` | GET | Chi tiết ví |
+| `/wallets/:id` | PUT | Cập nhật ví |
+| `/wallets/:id` | DELETE | Xóa/Archive ví |
+| `/wallets/:id/adjust` | POST | Điều chỉnh số dư |
+| `/wallets/transfer` | POST | Chuyển tiền giữa ví |
+
+#### Transaction APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/transactions` | GET | Danh sách giao dịch (với filter) |
+| `/transactions` | POST | Tạo giao dịch mới |
+| `/transactions/:id` | GET | Chi tiết giao dịch |
+| `/transactions/:id` | PUT | Cập nhật giao dịch |
+| `/transactions/:id` | DELETE | Xóa giao dịch |
+| `/transactions/:id/duplicate` | POST | Duplicate giao dịch |
+
+#### Category APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/categories` | GET | Danh sách danh mục |
+| `/categories` | POST | Tạo danh mục mới |
+| `/categories/:id` | PUT | Cập nhật danh mục |
+| `/categories/:id` | DELETE | Xóa danh mục |
+
+#### Budget APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/budgets` | GET | Danh sách ngân sách |
+| `/budgets` | POST | Tạo ngân sách |
+| `/budgets/:id` | GET | Chi tiết & tiến độ |
+| `/budgets/:id` | PUT | Cập nhật ngân sách |
+| `/budgets/:id` | DELETE | Xóa ngân sách |
+
+#### Recurring APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/recurring` | GET | Danh sách giao dịch định kỳ |
+| `/recurring` | POST | Tạo mới |
+| `/recurring/:id` | PUT | Cập nhật |
+| `/recurring/:id` | DELETE | Xóa |
+| `/recurring/:id/skip` | POST | Bỏ qua lần tiếp theo |
+
+#### Debt APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/debts` | GET | Danh sách công nợ |
+| `/debts` | POST | Tạo khoản cho vay/đi vay |
+| `/debts/:id` | GET | Chi tiết công nợ |
+| `/debts/:id/payment` | POST | Ghi nhận trả nợ |
+| `/debts/:id/settle` | POST | Đánh dấu đã thanh toán |
+
+#### Saving Goal APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/goals` | GET | Danh sách mục tiêu |
+| `/goals` | POST | Tạo mục tiêu mới |
+| `/goals/:id` | GET | Chi tiết mục tiêu |
+| `/goals/:id` | PUT | Cập nhật mục tiêu |
+| `/goals/:id/deposit` | POST | Gửi tiền vào |
+| `/goals/:id/withdraw` | POST | Rút tiền ra |
+
+#### Report APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/reports/overview` | GET | Báo cáo tổng quan |
+| `/reports/cash-flow` | GET | Dòng tiền theo thời gian |
+| `/reports/by-category` | GET | Thống kê theo danh mục |
+| `/reports/by-wallet` | GET | Thống kê theo ví |
+| `/reports/budget` | GET | Báo cáo ngân sách |
+| `/reports/debt` | GET | Báo cáo công nợ |
+
+#### Export APIs
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/export/transactions` | GET | Xuất giao dịch (CSV/Excel/PDF) |
+| `/export/reports` | GET | Xuất báo cáo |
+| `/import/transactions` | POST | Import giao dịch |
+| `/backup` | GET | Backup toàn bộ dữ liệu |
+| `/restore` | POST | Khôi phục từ backup |
+
+---

@@ -1,10 +1,24 @@
-import {MetaRecord} from "nextra";
+import { MetaRecord } from "nextra";
+
 
 const DOCS_ITEMS: MetaRecord = {
-    index: '',
-    tips: '',
-    srs:''
-}
+    index: { title: "Tổng quan" },
+    srs: {
+        title: "Đặc tả yêu cầu phần mềm (SRS)",
+        items: {
+            index: { title: "1. Giới Thiệu" },
+            overall: { title: "2. Mô Tả Tổng Quan" },
+            architecture: { title: "3. Kiến Trúc Hệ Thống" },
+            "functional-requirements": { title: "4. Yêu Cầu Chức Năng" },
+            "non-functional-requirements": { title: "5. Yêu Cầu Phi Chức Năng" },
+            "data-requirements": { title: "6. Yêu Cầu Dữ Liệu" },
+            "api-requirements": { title: "7. Yêu Cầu API" },
+            "workflow-requirements": { title: "8. Yêu Cầu Workflow" },
+            "assumptions-risks": { title: "9. Giả Định & Rủi Ro" },
+            "future-enhancements": { title: "10. Hướng Phát Triển" }
+        }
+    }
+};
 
 
 export default {

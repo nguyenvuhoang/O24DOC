@@ -1,0 +1,38 @@
+---
+title: "Giả Định, Rủi Ro & Phụ Thuộc"
+description: "Assumptions, Risks & Dependencies - Các giả định, rủi ro và phụ thuộc của dự án W4S"
+---
+
+## 8. Giả Định, Rủi Ro & Phụ Thuộc
+
+### 8.1 Giả Định (Assumptions)
+
+| # | Giả định |
+|---|----------|
+| A1 | Người dùng có smartphone với kết nối internet |
+| A2 | Exchange rate API khả dụng và đáng tin cậy |
+| A3 | User có kiến thức cơ bản về quản lý tài chính |
+| A4 | Cloud infrastructure đáp ứng yêu cầu SLA |
+| A5 | Team có đủ năng lực technical để implement |
+
+### 8.2 Rủi Ro (Risks)
+
+| # | Rủi ro | Mức độ | Giảm thiểu |
+|---|--------|--------|------------|
+| R1 | Data breach | High | Encryption, Security audit, Penetration test |
+| R2 | System downtime | Medium | HA architecture, Auto-failover |
+| R3 | Data loss | High | Regular backup, Multi-region replication |
+| R4 | Performance degradation | Medium | Load testing, Auto-scaling |
+| R5 | Third-party API failure | Low | Fallback mechanism, Caching |
+
+### 8.3 Phụ Thuộc (Dependencies)
+
+| # | Phụ thuộc | Loại |
+|---|-----------|------|
+| D1 | Cloud Provider (AWS/GCP/Azure) | Infrastructure |
+| D2 | Exchange Rate API | External Service |
+| D3 | Push Notification Service (FCM/APNS) | External Service |
+| D4 | Email Service (SendGrid/SES) | External Service |
+| D5 | SMS Gateway | External Service |
+
+---
