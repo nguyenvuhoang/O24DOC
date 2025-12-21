@@ -15,7 +15,8 @@ const DOCS_ITEMS: MetaRecord = {
             "api-requirements": { title: "7. Yêu Cầu API" },
             "workflow-requirements": { title: "8. Yêu Cầu Workflow" },
             "assumptions-risks": { title: "9. Giả Định & Rủi Ro" },
-            "future-enhancements": { title: "10. Hướng Phát Triển" }
+            "design-requirements": { title: "10. Yêu Cầu Thiết Kế" },
+            "future-enhancements": { title: "11. Hướng Phát Triển" }
         }
     }
 };
