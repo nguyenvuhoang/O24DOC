@@ -7,19 +7,60 @@ description: "Functional Requirements - Các yêu cầu chức năng của hệ 
 
 ## Danh sách các yêu cầu chức năng chi tiết của hệ thống Wallet4S được mô tả dưới đây. Mỗi yêu cầu bao gồm mô tả, đầu vào, đầu ra, và các trường hợp đặc biệt cần lưu ý.
 
- **No.** | **Platform**                  | **Nhóm tính năng** | **Feature**                                             | **Phase ** | **** | **** | **** | **** | **** 
-:-------:|:-----------------------------:|:------------------:|:-------------------------------------------------------:|:----------:|:----:|:----:|:----:|:----:|:----:
- 1       | App Quản lý tài chính cá nhân | Account & Security | Đăng ký / đăng nhập, quản lý hồ sơ cá nhân              | Phase 1    |      |      |      |      |      
- 2       | App Quản lý tài chính cá nhân | Account & Security | Xác thực OTP (Zalo / Email)                             | Phase 1    |      |      |      |      |      
- 3       | App Quản lý tài chính cá nhân | Wallet Core        | Tạo ví, quản lý nhiều ví                                | Phase 1    |      |      |      |      |      
- 4       | App Quản lý tài chính cá nhân | Wallet Core        | Quản lý tài khoản ví, số dư, danh mục, nhóm             | Phase 1    |      |      |      |      |      
- 4       | App Quản lý tài chính cá nhân | Wallet Utility     | Cài đặt ví (đổi tên, icon, màu sắc, currency mặc định)  | Phase 1    |      |      |      |      |      
- 5       | App Quản lý tài chính cá nhân | Wallet Utility     | Thiết lập ví mặc định / ví ưu tiên                      | Phase 1    |      |      |      |      |      
- 6       | App Quản lý tài chính cá nhân | Wallet Utility     | Bật / tắt tính toán báo cáo cho từng ví                 | Phase 1    |      |      |      |      |      
- 7       | App Quản lý tài chính cá nhân | Wallet Utility     | Thiết lập sự kiện tài chính (sinh nhật, cưới, du lịch…) | Phase 1    |      |      |      |      |      
- 8       | App Quản lý tài chính cá nhân | Wallet Utility     | Lịch tài chính (calendar view cho thu – chi – sự kiện)  | Phase 1    |      |      |      |      |      
-
-
+| No. | Platform                      | Nhóm tính năng         | Feature                                                 | Phase   |
+| --- | ----------------------------- | ---------------------- | ------------------------------------------------------- | ------- |
+| 1   | App Quản lý tài chính cá nhân | Account & Security     | Đăng ký / đăng nhập, quản lý hồ sơ cá nhân              | Phase 1 |
+| 2   | App Quản lý tài chính cá nhân | Account & Security     | Xác thực OTP (Zalo / Email)                             | Phase 1 |
+| 3   | App Quản lý tài chính cá nhân | Wallet Core            | Tạo ví, quản lý nhiều ví                                | Phase 1 |
+| 4   | App Quản lý tài chính cá nhân | Wallet Core            | Quản lý tài khoản ví, số dư, danh mục, nhóm             | Phase 1 |
+| 4   | App Quản lý tài chính cá nhân | Wallet Utility         | Cài đặt ví (đổi tên, icon, màu sắc, currency mặc định)  | Phase 1 |
+| 5   | App Quản lý tài chính cá nhân | Wallet Utility         | Thiết lập ví mặc định / ví ưu tiên                      | Phase 1 |
+| 6   | App Quản lý tài chính cá nhân | Wallet Utility         | Bật / tắt tính toán báo cáo cho từng ví                 | Phase 1 |
+| 7   | App Quản lý tài chính cá nhân | Wallet Utility         | Thiết lập sự kiện tài chính (sinh nhật, cưới, du lịch…) | Phase 1 |
+| 8   | App Quản lý tài chính cá nhân | Wallet Utility         | Lịch tài chính (calendar view cho thu – chi – sự kiện)  | Phase 1 |
+| 9   | App Quản lý tài chính cá nhân | Wallet Utility         | Gắn giao dịch với sự kiện / kế hoạch                    | Phase 1 |
+| 10  | App Quản lý tài chính cá nhân | Wallet Utility         | Quản lý recurring rules (thu/chi lặp)                   | Phase 1 |
+| 11  | App Quản lý tài chính cá nhân | Wallet Utility         | Archive / đóng ví theo kỳ (year-end closing)            | Phase 1 |
+| 12  | App Quản lý tài chính cá nhân | Wallet Utility         | Chuyển dữ liệu giữa các ví                              | Phase 1 |
+| 13  | App Quản lý tài chính cá nhân | Wallet Utility         | Template ví (cá nhân / gia đình / nhóm / dự án)         | Phase 1 |
+| 14  | App Quản lý tài chính cá nhân | Wallet Utility         | Import / Export dữ liệu ví (Excel / CSV)                | Phase 1 |
+| 15  | App Quản lý tài chính cá nhân | Wallet Utility         | Timeline lịch sử ví (audit & activity)                  | Phase 1 |
+| 16  | App Quản lý tài chính cá nhân | Wallet Utility         | Automation rule theo ví (IF–THEN rule)                  | Phase 1 |
+| 17  | App Quản lý tài chính cá nhân | Transaction            | Ghi nhận thu – chi thủ công                             | Phase 1 |
+| 18  | App Quản lý tài chính cá nhân | Transaction            | Ghi nhận thu – chi tự động                              | Phase 1 |
+| 19  | App Quản lý tài chính cá nhân | Budget                 | Lập ngân sách theo danh mục                             | Phase 1 |
+| 20  | App Quản lý tài chính cá nhân | Budget                 | Cảnh báo vượt ngân sách                                 | Phase 1 |
+| 21  | App Quản lý tài chính cá nhân | Report & Insight       | Thống kê – báo cáo cơ bản                               | Phase 1 |
+| 22  | App Quản lý tài chính cá nhân | Report & Insight       | Biểu đồ phân tích nâng cao                              | Phase 1 |
+| 23  | App Quản lý tài chính cá nhân | Automation             | Nhắc nhở chi tiêu định kỳ                               | Phase 1 |
+| 24  | App Quản lý tài chính cá nhân | Collaboration          | Chia sẻ giao dịch / ví                                  | Phase 1 |
+| 25  | App Quản lý tài chính cá nhân | Platform               | Đa ngôn ngữ VN / EN                                     | Phase 1 |
+| 26  | App Quản lý tài chính cá nhân | Platform               | Push notification realtime                              | Phase 1 |
+| 27  | App Quản lý tài chính cá nhân | Automation             | Cảnh báo biến động số dư bất thường                     | Phase 1 |
+| 28  | App Quản lý tài chính cá nhân | OCR                    | Quét hóa đơn OCR                                        | Phase 1 |
+| 29  | App Quản lý tài chính cá nhân | Advanced               | Quản lý hóa đơn                                         | Phase 1 |
+| 30  | App Quản lý tài chính cá nhân | Advanced               | Quản lý sổ nợ                                           | Phase 1 |
+| 31  | App Quản lý tài chính cá nhân | Tool                   | Tìm ATM                                                 | Phase 1 |
+| 32  | App Quản lý tài chính cá nhân | Tool                   | Tìm ngân hàng                                           | Phase 1 |
+| 33  | App Quản lý tài chính cá nhân | Tool                   | Tính tiền típ                                           | Phase 1 |
+| 34  | App Quản lý tài chính cá nhân | Tool                   | Hỗ trợ tính lãi suất                                    | Phase 1 |
+| 35  | App Quản lý tài chính cá nhân | Tool                   | Hỗ trợ tính thuế TNCN                                   | Phase 1 |
+| 36  | App Quản lý tài chính cá nhân | AI                     | Chatbot tư vấn tài chính                                | Phase 1 |
+| 37  | App Quản lý tài chính cá nhân | Banking                | Liên kết ngân hàng                                      | Phase 2 |
+| 38  | App Quản lý tài chính cá nhân | Payment & Open Finance | Thanh toán QR / P2P / Merchant                          | Phase 2 |
+| 39  | App Quản lý tài chính cá nhân | Payment & Open Finance | Kết nối Open Banking / OpenAPI Payment                  | Phase 2 |
+| 40  | App Quản lý tài chính cá nhân | Collaboration          | Quản lý vay – cho vay nội bộ                            | Phase 3 |
+| 41  | App Quản lý tài chính cá nhân | AI                     | AI gợi ý cấu hình ví tối ưu theo hành vi                | Phase 3 |
+| 42  | App Quản lý tài chính cá nhân | AI                     | Phân tích hành vi chi tiêu bằng AI                      | Phase 3 |
+| 43  | App Quản lý tài chính cá nhân | AI                     | Dự báo dòng tiền & gợi ý tài chính                      | Phase 3 |
+| 44  | App Quản lý tài chính cá nhân | AI                     | Cá nhân hóa khuyến nghị theo người dùng                 | Phase 4 |
+| 45  | App Quản lý tài chính cá nhân | Payment & Open Finance | Quản lý subscription & recurring payment                | Phase 4 |
+| 46  | App Quản lý tài chính cá nhân | Loyalty & Rewards      | Tích điểm thưởng theo hành vi chi tiêu                  | Phase 4 |
+| 47  | App Quản lý tài chính cá nhân | Loyalty & Rewards      | Quản lý voucher / ưu đãi / cashback                     | Phase 4 |
+| 48  | App Quản lý tài chính cá nhân | Loyalty & Rewards      | Cá nhân hóa loyalty bằng AI                             | Phase 4 |
+| 49  | App Quản lý tài chính cá nhân | Blockchain & Web3      | Ghi nhận giao dịch trên blockchain (audit / hash)       | Phase 4 |
+| 50  | App Quản lý tài chính cá nhân | Blockchain & Web3      | Ví tài sản số (crypto / token hóa)                      | Phase 4 |
+| 51  | App Quản lý tài chính cá nhân | Blockchain & Web3      | Smart contract cho vay / cam kết tài chính              | Phase 4 |
 
 ### 4.1 Quản Lý Người Dùng & Bảo Mật (User & Security Management)
 
