@@ -125,3 +125,93 @@ description: "API Requirements - Danh sách và đặc tả các API của hệ 
 | `/restore` | POST | Khôi phục từ backup |
 
 ---
+Dưới đây là nội dung đầy đủ cho phần tài liệu về **Learn API**, được trình bày theo định dạng Markdown chuyên nghiệp để bạn có thể thêm vào file README hoặc tạo một file tài liệu riêng (`LEARN_API.md`).
+
+---
+
+# 7.3. Cấu Hình Hệ Thống Learn API
+
+## 7.3.1 Tổng Quan
+**Learn API** đóng vai trò là lớp Gateway/Interface trung gian của hệ thống. Nó cho phép định nghĩa các endpoint ảo để tiếp nhận request từ Client (Web/Mobile), thực hiện mapping dữ liệu, xử lý Header (Token) và điều hướng (Route) đến các Controller tương ứng của từng Microservice hoặc gọi trực tiếp vào Workflow.
+
+## 7.3.2 Các Bước Khai Báo Learn API
+
+Để tạo một API mới, bạn cần thực hiện khai báo trong bảng `[o24cms].[dbo].[LearnApi]` tại database hệ thống.
+
+### Bước 1: Khai báo Metadata và Endpoint
+Thực hiện chèn bản ghi vào database. Dưới đây là ví dụ khai báo API dùng để tìm kiếm Workflow:
+
+```sql
+INSERT INTO [dbo].[LearnApi] (
+    [LearnApiId], 
+    [LearnApiName], 
+    [LearnApiMethod], 
+    [Channel], 
+    [URI], 
+    [LearnApiMapping], 
+    [LearnApiHeader], 
+    [IsCache], 
+    [IsInternal]
+) 
+VALUES (
+    N'LEARN_API_BO_SIMPLE_SEARCH_WF', -- ID định danh duy nhất của API
+    N'LEARN_API_BO_SIMPLE_SEARCH_WF', 
+    N'POST',                         -- Phương thức HTTP (GET, POST, PUT, DELETE)
+    N'BO',                           -- Kênh áp dụng (BO, MB,...)
+    N'$WFO$/api/workflowdef/simplesearch', -- URL đích (Sử dụng biến môi trường)
+    N'{"search_text":"dataS(searchtext)","page_index":"dataI(pageindex)","page_size":"dataI(pagesize)"}', -- Mapping dữ liệu
+    N'{"Authorization":"MapS.getToken(Bearer )"}', -- Cấu hình Header
+    '0', 
+    NULL
+);
+```
+
+---
+
+## 3. Đặc Tả Các Thành Phần Cấu Hình
+
+### 3.1. Cấu hình URI ($ServiceVariable$)
+Hệ thống sử dụng các biến đại diện cho Base URL của các service để tăng tính linh hoạt khi triển khai trên các môi trường khác nhau (Dev, Staging, Prod):
+- `$WFO$`: Trỏ đến Service **Workflow Orchestrator**.
+- `$CTH$`: Trỏ đến Service **ControlHub**.
+- `$W4S$`: Trỏ đến Service **Wallet**.
+- `$NCH$`: Trỏ đến Service **Notification**.
+
+**Ví dụ:** `$WFO$/api/workflowdef/simplesearch` sẽ tự động chuyển đổi thành `http://10.0.x.x:8080/api/workflowdef/simplesearch`.
+
+### 3.2. LearnApiMapping (Request Data Mapping)
+Đây là phần quan trọng nhất để chuyển đổi dữ liệu từ Request của Client thành Payload mà Service đích yêu cầu. Hệ thống sử dụng các hàm Handler để ép kiểu:
+
+| Prefix | Ý nghĩa | Ví dụ |
+| :--- | :--- | :--- |
+| `dataS(key)` | Ép kiểu String | `"name": "dataS(username)"` |
+| `dataI(key)` | Ép kiểu Integer | `"age": "dataI(userage)"` |
+| `dataN(key)` | Ép kiểu Decimal/Numeric | `"amount": "dataN(price)"` |
+| `dataB(key)` | Ép kiểu Boolean | `"is_active": "dataB(status)"` |
+| `dataA(key)` | Ép kiểu JsonArray | `"roles": "dataA(role_list)"` |
+| `dataO(key)` | Ép kiểu JsonObject | `"info": "dataO(metadata)"` |
+
+### 3.3. LearnApiHeader (Xử lý Header & Security)
+Cấu hình các tham số truyền trên Header của request. 
+- **Token Handling:** Sử dụng `MapS.getToken(prefix)` để hệ thống tự động lấy Token JWT hiện tại của user đang login và gắn vào Header.
+- **Ví dụ:** `{"Authorization":"MapS.getToken(Bearer )"}` sẽ tạo ra Header: `Authorization: Bearer <JWT_TOKEN_HERE>`.
+
+### 3.4. LearnApiMappingResponse (Mapping kết quả trả về)
+Nếu Service đích trả về một cấu trúc JSON phức tạp nhưng bạn chỉ muốn trả về một vài trường cho Client, bạn có thể cấu hình mapping tương tự như phần Request tại cột này.
+
+---
+
+## 4. Luồng Xử Lý Của Một Request
+
+1. **Tiếp nhận:** Client gửi request kèm `LearnApiId` (ví dụ: `LEARN_API_BO_SIMPLE_SEARCH_WF`).
+2. **Phân giải:** Hệ thống tìm cấu hình trong DB dựa trên ID.
+3. **Mapping Header:** Lấy Token, ClientID... gắn vào Header theo cấu hình `LearnApiHeader`.
+4. **Mapping Body:** Đọc dữ liệu từ body của Client, sử dụng bộ Handler (`dataS`, `dataI`,...) để build lại JSON Body mới theo `LearnApiMapping`.
+5. **Forward:** Gửi request đã được chuẩn hóa tới **URI** đích.
+6. **Response:** Nhận kết quả từ service nội bộ, thực hiện mapping response (nếu có) và trả về cho Client.
+
+## 5. Lưu ý quan trọng
+- **IsInternal:** Nếu đánh dấu là `1`, API này chỉ có thể gọi nội bộ giữa các service, không public ra ngoài gateway.
+- **Method:** Phải khớp với Method được khai báo tại Controller của Service đích.
+
+---
