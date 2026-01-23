@@ -7,4 +7,100 @@ description: "WorkFlow Requirements - Danh sách và đặc tả các WorkFlow c
 
 ### 7.1 Tổng Quan WorkFlow
 
+Để thiết lập một quy trình công việc (Workflow), bạn cần thực hiện qua 3 giai đoạn chính: Khai báo tại Workflow Orchestrator (WFO), Đăng ký tại Service đích và Triển khai Code.
+
+#### Bước 1: Khai báo Workflow tại Service Workflow Orchestrator (WFO)
+
+Đầu tiên, cần định nghĩa Workflow và các bước thực hiện trong Database của service WFO.
+
+**1.1. Khai báo Workflow Definition (`WorkflowDef`):**
+Định nghĩa thông tin chung của Workflow như ID, tên và thời gian timeout.
+
+```sql
+INSERT INTO [dbo].[WorkflowDef] 
+([Id], [WorkflowId], [WorkflowName], [ChannelId], [Status], [Timeout], [IsReverse]) 
+VALUES 
+(289, N'WF_MB_CREATE_USER', N'WF_BO_CREATE_USER', N'MB', '1', 60000, '0');
+```
+
+**1.2. Khai báo các bước trong Workflow (`WorkflowStep`):**
+Mỗi Workflow gồm nhiều bước (`StepOrder`). Tại đây bạn cấu hình `SendingTemplate` để map dữ liệu đầu vào cho từng service.
+
+```sql
+-- Ví dụ: Bước 1 gọi service W4S để tạo Wallet
+INSERT INTO [dbo].[WorkflowStep] ([WorkflowId], [StepCode], [StepOrder], [ServiceId], [Status], [SendingTemplate], [StepTimeout]) 
+VALUES (N'WF_MB_CREATE_USER', N'WF_STEP_W4S_CREATE_WALLET', 1, N'W4S', '1', 
+N'{
+  "UserName": "dataS(username)",
+  "Phone": "dataS(phone)",
+  "UserGroup": "dataA(usergroup)"
+}', 60000);
+
+-- Ví dụ: Bước 2 lấy dữ liệu từ kết quả của bước trước đó (execution_steps[0])
+INSERT INTO [dbo].[WorkflowStep] ([WorkflowId], [StepCode], [StepOrder], [ServiceId], [Status], [SendingTemplate])
+VALUES (N'WF_MB_CREATE_USER', N'WF_STEP_CTH_CREATE_USER', 2, N'CTH', '1', 
+N'{"ContractNumber":"dataFunc(execution_steps[0].p1_content.contract_number)", "UserName":"dataS(username)"}');
+```
+
+#### Bước 2: Quy tắc Mapping Dữ liệu (Data Mapping)
+
+Trong `SendingTemplate`, hệ thống sử dụng các prefix để ép kiểu dữ liệu động thông qua bộ phân giải `_handlers`:
+
+| Prefix | Kiểu dữ liệu | Prefix | Kiểu dữ liệu |
+| :--- | :--- | :--- | :--- |
+| `dataS` | String | `dataSNull` | String (cho phép null) |
+| `dataI` | Integer | `dataINull` | Nullable Integer |
+| `dataB` | Boolean | `dataN` | Decimal |
+| `dataDt`| DateTime | `dataO` | JsonObject |
+| `dataA` | JsonArray | `dataFunc` | Lấy từ kết quả bước trước |
+| `dataUnixToDate` | Chuyển Unix sang Date | `dataDateToUnix` | Chuyển Date sang Unix |
+
+*   **Lưu ý:** Sử dụng `dataFunc(execution_steps[n].p1_content.field)` để truy cập dữ liệu trả về từ bước thứ `n` trong quy trình.
+
+#### Bước 3: Đăng ký Step tại Service thực thi (Target Service)
+
+Mỗi service thành phần (ví dụ: CTH, W4S, NCH) cần đăng ký `StepCode` mà nó sẽ đảm nhận xử lý trong bảng `O24OpenAPIService`.
+
+```sql
+INSERT INTO [dbo].[O24OpenAPIService] 
+([StepCode], [ShouldAwait], [IsInquiry], [MediatorKey], [IsAutoReverse]) 
+VALUES 
+(N'WF_STEP_CTH_CREATE_USER', '1', '1', N'cth', '1');
+```
+
+#### Bước 4: Triển khai Code tại Service thực thi
+
+**4.1. Định nghĩa Command/Query:**
+Tạo Model kế thừa từ `BaseTransactionModel` và `ICommand<T>` hoặc `IQuery<T>`. Các thuộc tính phải khớp với các key đã cấu hình trong `SendingTemplate`.
+
+```csharp
+public class CreateUserCommand : BaseTransactionModel, ICommand<UserResponseModel>
+{
+    public string UserName { get; set; }
+    public string Phone { get; set; }
+    public List<string> UserGroup { get; set; }
+    // ... các field khác
+}
+```
+
+**4.2. Triển khai Handler:**
+Sử dụng Attribute `[WorkflowStep]` để đánh dấu `StepCode` tương ứng cho hàm xử lý. Điều này giúp hệ thống tự động điều phối khi nhận được yêu cầu từ WFO.
+
+```csharp
+[CqrsHandler]
+public class CreateUserHandle(...) : ICommandHandler<CreateUserCommand, UserResponseModel>
+{
+    [WorkflowStep(WorkflowStepCode.CTH.WF_STEP_CTH_CREATE_USER)]
+    public async Task<UserResponseModel> HandleAsync(
+        CreateUserCommand request,
+        CancellationToken cancellationToken = default
+    )
+    {
+        // Logic xử lý nghiệp vụ tại đây
+        return new UserResponseModel { ... };
+    }
+}
+```
+
 ---
+*Lưu ý: Đảm bảo `StepCode` giữa các bảng DB và trong Code phải trùng khớp tuyệt đối.*
