@@ -1,6 +1,9 @@
 .next
 node_modules
 /.idea
+.env
+.env.*
+!.env.example
 
 # avoid committing generated index files
 _pagefind/

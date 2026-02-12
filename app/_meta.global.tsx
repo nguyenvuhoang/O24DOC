@@ -36,6 +36,10 @@ export default {
         title: 'Documentation',
         items: DOCS_ITEMS
     },
+    dynamic: {
+        title: '📄 Tài Liệu Động',
+        type: 'page',
+    },
     contact: {
         type: 'page',
         theme: {
@@ -57,5 +61,9 @@ export default {
                 href: 'https://github.com/nguyenvuhoang/nextra-blog-starter'
             }
         }
+    },
+    login: {
+        title: 'Login',
+        display: 'hidden',
     },
 }

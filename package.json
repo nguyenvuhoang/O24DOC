@@ -21,6 +21,7 @@
   "dependencies": {
     "@nextra/theme-docs": "4.3.0",
     "@radix-ui/react-dialog": "^1.1.15",
+    "@supabase/supabase-js": "2.95.3",
     "@tailwindcss/postcss": "^4.1.16",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -33,6 +34,9 @@
     "radix-ui": "1.4.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-markdown": "10.1.0",
+    "rehype-raw": "7.0.0",
+    "remark-gfm": "4.0.1",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.16"
   },
